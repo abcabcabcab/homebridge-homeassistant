@@ -23,7 +23,7 @@ function HomeAssistantPlatform(log, config, api) {
   // auth info
   this.host = config.host;
   this.password = config.password;
-  this.supportedTypes = config.supported_types || ['binary_sensor', 'climate', 'cover', 'device_tracker', 'fan', 'group', 'input_boolean', 'light', 'lock', 'media_player', 'scene', 'sensor', 'switch'];
+  this.supportedTypes = config.supported_types || ['binary_sensor', 'climate', 'cover', 'device_tracker', 'fan', 'group', 'input_boolean', 'light', 'lock', 'media_player', 'sensor', 'switch', 'automation', 'script'];
   this.foundAccessories = [];
   this.logging = config.logging !== undefined ? config.logging : true;
 
@@ -162,8 +162,10 @@ HomeAssistantPlatform.prototype = {
           accessory = new HomeAssistantLock(that.log, entity, that);
         } else if (entityType === 'garage_door') {
           that.log.error('Garage_doors are no longer supported by homebridge-homeassistant. Please upgrade to a newer version of Home Assistant to continue using this entity (with the new cover component).');
-        } else if (entityType === 'scene') {
-          accessory = new HomeAssistantSwitch(that.log, entity, that, 'scene');
+        } else if (entityType === 'script') {
+          accessory = new HomeAssistantSwitch(that.log, entity, that, 'script');
+        } else if (entityType === 'automation') {
+          accessory = new HomeAssistantSwitch(that.log, entity, that, 'automation');
         } else if (entityType === 'rollershutter') {
           that.log.error('Rollershutters are no longer supported by homebridge-homeassistant. Please upgrade to a newer version of Home Assistant to continue using this entity (with the new cover component).');
         } else if (entityType === 'input_boolean') {
