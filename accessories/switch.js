@@ -49,7 +49,7 @@ HomeAssistantSwitch.prototype = {
       this.log(`Setting power state on the '${this.name}' to on`);
 
       this.client.callService(this.domain, 'turn_on', serviceData, (data) => {
-        if (this.domain === 'script') {
+        if (this.domain === 'script' || this.domain === 'scene') {
           setTimeout(() => {
             this.service.getCharacteristic(Characteristic.On)
                 .setValue(false, null, 'internal');
@@ -81,6 +81,9 @@ HomeAssistantSwitch.prototype = {
     switch (this.domain) {
       case 'script':
         model = 'Script';
+        break;
+      case 'scene':
+        model = 'Scene';
         break;
       case 'automation':
         model = 'Automation';
